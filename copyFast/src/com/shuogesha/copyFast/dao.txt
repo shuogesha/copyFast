@@ -1,0 +1,21 @@
+package #{dao_p};
+
+import java.util.List;
+import java.util.Map;
+
+import #{entity_p}.#{Entity};
+
+public interface #{Entity}Dao { 
+	
+	void saveEntity(#{Entity} bean);
+
+	#{Entity} findById(Integer id);
+
+	void updateById(#{Entity} bean);
+ 
+	void removeById(Integer id);
+	
+	List<#{Entity}> queryList(Map<String, Object> map);
+
+	long count(Map<String, Object> map);
+}

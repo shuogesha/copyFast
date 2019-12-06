@@ -1,0 +1,8 @@
+package #{entity_p};
+
+import java.io.Serializable;
+
+public class #{Entity} implements Serializable {
+	
+ 
+}

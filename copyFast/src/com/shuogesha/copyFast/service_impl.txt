@@ -1,0 +1,65 @@
+package #{service_impl_p};
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import #{dao_p}.#{Entity}Dao;
+import #{entity_p}.#{Entity};
+import #{service_p}.#{Entity}Service;
+import com.shuogesha.platform.web.mongo.Pagination;
+
+
+@Service
+public class #{Entity}ServiceImpl implements #{Entity}Service{
+	
+	@Autowired
+	private #{Entity}Dao dao;
+
+	@Override
+	public #{Entity} findById(Integer id) {
+		return dao.findById(id);
+	}
+	
+	@Override
+	public Pagination getPage( String name,int pageNo, int pageSize) {
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		if(StringUtils.isNotBlank(name)){
+			map.put("name", new StringBuilder("%").append(name).append("%").toString());
+		}
+		long totalCount = dao.count(map);
+		Pagination<#{Entity}> page = new Pagination<#{Entity}>(pageNo, pageSize, totalCount);
+ 		map.put("pageSize", pageSize);
+		map.put("offset", Integer.valueOf(pageSize)*((Integer.valueOf(pageNo)-1)));
+ 		List<#{Entity}> datas = dao.queryList(map);
+		page.setDatas(datas);
+		return page; 
+	}
+
+	@Override
+	public void save(#{Entity} bean) {
+		 dao.saveEntity(bean);
+	}
+
+	@Override
+	public void update(#{Entity} bean) { 
+		 dao.updateById(bean);
+	}
+
+	@Override
+	public void removeById(Integer id) {
+		dao.removeById(id);
+	}
+
+	@Override
+	public void removeByIds(Integer[] ids) {
+		for (int i = 0, len = ids.length; i < len; i++) {
+			removeById(ids[i]);
+		}
+	}
+
+}
